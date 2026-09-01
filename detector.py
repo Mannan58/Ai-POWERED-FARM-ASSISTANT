@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 model = YOLO("yolo26n.pt") # pretrained model from yolo to detect 80 commom daily life things
 
-results = model("photo.jpg",confi=0.6)
+results = model("photo.jpg")
 apple_count = 0
 for result in results:
     for i in range(len(result.boxes)):
@@ -14,5 +14,5 @@ for result in results:
      print(name)
      print(class_id)
     print("="*20)
-    result.show()
+    result.show()    
 print(apple_count)   
