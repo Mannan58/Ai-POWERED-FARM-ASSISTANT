@@ -14,14 +14,14 @@ while True:
     
     results = model(frame)
     objects = {}
-    for i in range(len(results[0].boxes)):
+    for i in range(len(results[0].boxes)): #for every box in one frme
         class_id = int(results[0].boxes.cls[i])
         class_name = results[0].names[class_id]
         
         if class_name in objects:
             objects[class_name] += 1
         else:
-            objects[class_name]=1
+            objects[class_name]=1   #if not object append the key and then put the value 1
     print(objects)
     
     text = str(objects)
