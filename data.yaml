@@ -1,10 +1,6 @@
-path : dataset 
-
-train : images/train
-val : images/val
-
-names:
-  0: fruit
-  1: flower
-  2: leaf
-  
+path: /content/Nature3_clean
+train: train/images
+val: valid/images
+test: test/images
+nc: 3
+names: ['Leaf', 'flower', 'fruit']
