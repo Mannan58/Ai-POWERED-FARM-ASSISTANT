@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 camera= cv2.VideoCapture(0)
-model = YOLO("yolo26n.pt")
+model = YOLO("sam_model.pt")
 
 block = 1
 
@@ -29,8 +29,10 @@ while True:
         yolo_image= result[0].plot()
         cv2.putText(yolo_image,text,(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2)
         file_name = f"images/block_{block}.jpg"
-        cv2.imwrite(file_name,yolo_image)
-                
+        try:
+         cv2.imwrite(file_name,yolo_image)
+        except Exception as e:
+            print(e)        
         cv2.imshow("photo_captured",frame)
         block+=1
         
