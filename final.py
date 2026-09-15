@@ -5,6 +5,42 @@ from torchvision import models, transforms
 from ultralytics import YOLO
 from PIL import Image
 
+# ============================================================
+# HINDI FARMER-FRIENDLY LANGUAGE
+# ============================================================
+
+DISEASE_HINDI = {
+    "Tomato___Early_blight": "टमाटर में अर्ली ब्लाइट बीमारी",
+    "Tomato___Late_blight": "टमाटर में लेट ब्लाइट बीमारी",
+    "Tomato___healthy": "टमाटर का पौधा स्वस्थ है",
+
+    "Potato___Early_blight": "आलू में अर्ली ब्लाइट बीमारी",
+    "Potato___Late_blight": "आलू में लेट ब्लाइट बीमारी",
+    "Potato___healthy": "आलू का पौधा स्वस्थ है",
+
+    "Pepper_bell___Bacterial_spot": "शिमला मिर्च में बैक्टीरियल स्पॉट बीमारी",
+    "Pepper_bell___healthy": "शिमला मिर्च का पौधा स्वस्थ है",
+}
+
+
+def hindi_disease_name(disease):
+    return DISEASE_HINDI.get(
+        disease,
+        disease.replace("___", " ").replace("_", " ")
+    )
+
+
+def hindi_ripeness(ripeness):
+
+    name = ripeness.lower()
+
+    if "ripe" in name:
+        return "पका हुआ फल"
+
+    if "raw" in name or "unripe" in name:
+        return "कच्चा फल"
+
+    return ripeness
 
 # ============================================================
 # 1. DEVICE
@@ -344,21 +380,29 @@ while True:
                 )
 
 
-                print("\n🍃 LEAF")
+              print("\n🍃 पत्ती की जाँच")
 
-                print(
-                    f"Detection confidence: "
+              print(
+                    f"पत्ती मिलने का भरोसा: "
                     f"{detection_confidence:.2f}%"
                 )
 
-                print(
-                    f"Disease: {disease}"
+              print(
+                    f"समस्या: {hindi_disease_name(disease)}"
                 )
 
-                print(
-                    f"Disease confidence: "
+              print(
+                    f"जाँच का भरोसा: "
                     f"{disease_confidence:.2f}%"
                 )
+
+              if "healthy" in disease.lower():
+
+                    print("✅ यह पत्ती स्वस्थ दिखाई दे रही है।")
+
+              else:
+
+                    print("⚠️ इस पत्ती में बीमारी के लक्षण दिखाई दे रहे हैं।")
 
 
             # =================================================
@@ -369,10 +413,10 @@ while True:
 
                 flower_count += 1
 
-                print("\n🌸 FLOWER")
+               print("\n🌸 फूल की जाँच")
 
-                print(
-                    f"Detection confidence: "
+               print(
+                    f"फूल मिलने का भरोसा: "
                     f"{detection_confidence:.2f}%"
                 )
 
@@ -391,21 +435,30 @@ while True:
                 )
 
 
-                print("\n🍎 FRUIT")
+                print("\n🍅 फल की जाँच")
 
                 print(
-                    f"Detection confidence: "
+                    f"फल मिलने का भरोसा: "
                     f"{detection_confidence:.2f}%"
                 )
 
                 print(
-                    f"Ripeness: {ripeness}"
+                    f"फल की स्थिति: "
+                    f"{hindi_ripeness(ripeness)}"
                 )
 
                 print(
-                    f"Ripeness confidence: "
+                    f"जाँच का भरोसा: "
                     f"{ripeness_confidence:.2f}%"
                 )
+
+                if "ripe" in ripeness.lower():
+
+                    print("🟢 यह फल पक चुका है।")
+
+                elif "raw" in ripeness.lower():
+
+                    print("🟡 यह फल अभी कच्चा है।")
 
 
                 # Count raw / ripe
@@ -425,29 +478,51 @@ while True:
 
         print("\n")
         print("=" * 60)
-        print("🌱 FARM IMAGE REPORT")
+        print("\n")
+        print("=" * 60)
+        print("🌾 खेत की जाँच रिपोर्ट")
         print("=" * 60)
 
         print(
-            f"🍃 Leaves: {leaf_count}"
+            f"🍃 कुल पत्तियाँ: {leaf_count}"
         )
 
         print(
-            f"🌸 Flowers: {flower_count}"
+            f"🌸 कुल फूल: {flower_count}"
         )
 
         print(
-            f"🍎 Fruits: {fruit_count}"
+            f"🍅 कुल फल: {fruit_count}"
         )
 
         print(
-            f"🟢 Ripe fruits: {ripe_count}"
+            f"🟢 पके हुए फल: {ripe_count}"
         )
 
         print(
-            f"🟡 Raw fruits: {raw_count}"
+            f"🟡 कच्चे फल: {raw_count}"
         )
 
+        print("\n📋 आसान जानकारी:")
+
+        print(
+            f"आपकी तस्वीर में कुल {leaf_count} पत्तियाँ, "
+            f"{flower_count} फूल और {fruit_count} फल मिले।"
+        )
+
+        if ripe_count > 0:
+
+            print(
+                f"🍅 इनमें से {ripe_count} फल पक चुके हैं।"
+            )
+
+        if raw_count > 0:
+
+            print(
+                f"🍅 {raw_count} फल अभी कच्चे हैं।"
+            )
+
+        print("=" * 60)
         print("=" * 60)
 
 
