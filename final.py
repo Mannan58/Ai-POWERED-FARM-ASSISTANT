@@ -66,32 +66,32 @@ print("✓ YOLO model loaded")
 # 3. LOAD RIPENESS MODEL
 # ============================================================
 
-ripeness_checkpoint = torch.load(
-    "rawripe_ripeness_model.pth",
-    map_location=device
-)
+# ripeness_checkpoint = torch.load(
+#     "rawripe_ripeness_model.pth",
+#     map_location=device
+# )
 
-ripeness_classes = ripeness_checkpoint["classes"]
+# ripeness_classes = ripeness_checkpoint["classes"]
 
-ripeness_model = models.resnet18(
-    weights=None
-)
+# ripeness_model = models.resnet18(
+#     weights=None
+# )
 
-ripeness_model.fc = nn.Linear(
-    ripeness_model.fc.in_features,
-    len(ripeness_classes)
-)
+# ripeness_model.fc = nn.Linear(
+#     ripeness_model.fc.in_features,
+#     len(ripeness_classes)
+# )
 
-ripeness_model.load_state_dict(
-    ripeness_checkpoint["model_state_dict"]
-)
+# ripeness_model.load_state_dict(
+#     ripeness_checkpoint["model_state_dict"]
+# )
 
-ripeness_model = ripeness_model.to(device)
+# ripeness_model = ripeness_model.to(device)
 
-ripeness_model.eval()
+# ripeness_model.eval()
 
-print("✓ Ripeness model loaded")
-print("Ripeness classes:", len(ripeness_classes))
+# print("✓ Ripeness model loaded")
+# print("Ripeness classes:", len(ripeness_classes))
 
 
 # ============================================================
@@ -162,27 +162,27 @@ def predict_ripeness(crop):
 
     image = image.to(device)
 
-    with torch.no_grad():
+    # with torch.no_grad():
 
-        output = ripeness_model(image)
+        # output = ripeness_model(image)
 
-        probabilities = torch.softmax(
-            output,
-            dim=1
-        )
+        # probabilities = torch.softmax(
+        #     output,
+        #     dim=1
+        # )
 
-        confidence, prediction = torch.max(
-            probabilities,
-            dim=1
-        )
+        # confidence, prediction = torch.max(
+        #     probabilities,
+        #     dim=1
+        # )
 
-    class_name = ripeness_classes[
-        prediction.item()
-    ]
+    # class_name = ripeness_classes[
+    #     prediction.item()
+    # ]
 
-    confidence = confidence.item() * 100
+    # confidence = confidence.item() * 100
 
-    return class_name, confidence
+    # return class_name, confidence
 
 
 # ============================================================
@@ -309,63 +309,34 @@ while True:
         for i in range(len(result.boxes)):
 
             # Class ID
-
-            class_id = int(
-                result.boxes.cls[i]
-            )
-
+            class_id = int(result.boxes.cls[i])
 
             # Class name
+            class_name = result.names[class_id]
 
-            class_name = result.names[
-                class_id
-            ]
-
-
-            # Confidence
-
+            # Detection confidence
             detection_confidence = float(
                 result.boxes.conf[i]
             ) * 100
 
-
             # Bounding box
-
             x1, y1, x2, y2 = (
                 result.boxes.xyxy[i]
                 .int()
                 .tolist()
             )
 
-
-            # Make sure coordinates are inside image
-
+            # Keep coordinates inside image
             x1 = max(0, x1)
             y1 = max(0, y1)
+            x2 = min(frame.shape[1], x2)
+            y2 = min(frame.shape[0], y2)
 
-            x2 = min(
-                frame.shape[1],
-                x2
-            )
-
-            y2 = min(
-                frame.shape[0],
-                y2
-            )
-
-
-            # Crop object
-
-            crop = frame[
-                y1:y2,
-                x1:x2
-            ]
-
+            # Crop detected object
+            crop = frame[y1:y2, x1:x2]
 
             if crop.size == 0:
-
                 continue
-
 
             # =================================================
             # LEAF
@@ -379,31 +350,35 @@ while True:
                     predict_disease(crop)
                 )
 
+                print("\n🍃 पत्ती की जाँच")
 
-              print("\n🍃 पत्ती की जाँच")
-
-              print(
+                print(
                     f"पत्ती मिलने का भरोसा: "
                     f"{detection_confidence:.2f}%"
                 )
 
-              print(
-                    f"समस्या: {hindi_disease_name(disease)}"
+                print(
+                    f"समस्या: "
+                    f"{hindi_disease_name(disease)}"
                 )
 
-              print(
+                print(
                     f"जाँच का भरोसा: "
                     f"{disease_confidence:.2f}%"
                 )
 
-              if "healthy" in disease.lower():
+                if "healthy" in disease.lower():
 
-                    print("✅ यह पत्ती स्वस्थ दिखाई दे रही है।")
+                    print(
+                        "✅ यह पत्ती स्वस्थ दिखाई दे रही है।"
+                    )
 
-              else:
+                else:
 
-                    print("⚠️ इस पत्ती में बीमारी के लक्षण दिखाई दे रहे हैं।")
-
+                    print(
+                        "⚠️ इस पत्ती में बीमारी के "
+                        "लक्षण दिखाई दे रहे हैं।"
+                    )
 
             # =================================================
             # FLOWER
@@ -413,13 +388,12 @@ while True:
 
                 flower_count += 1
 
-               print("\n🌸 फूल की जाँच")
+                print("\n🌸 फूल की जाँच")
 
-               print(
+                print(
                     f"फूल मिलने का भरोसा: "
                     f"{detection_confidence:.2f}%"
                 )
-
 
             # =================================================
             # FRUIT
@@ -429,50 +403,42 @@ while True:
 
                 fruit_count += 1
 
+                # ripeness, ripeness_confidence = (
+                #     predict_ripeness(crop)
+                # )
 
-                ripeness, ripeness_confidence = (
-                    predict_ripeness(crop)
-                )
+                # print("\n🍅 फल की जाँच")
 
+                # print(
+                #     f"फल मिलने का भरोसा: "
+                #     f"{detection_confidence:.2f}%"
+                # )
 
-                print("\n🍅 फल की जाँच")
+                # print(
+                #     f"फल की स्थिति: "
+                #     f"{hindi_ripeness(ripeness)}"
+                # )
 
-                print(
-                    f"फल मिलने का भरोसा: "
-                    f"{detection_confidence:.2f}%"
-                )
+                # print(
+                #     f"जाँच का भरोसा: "
+                #     f"{ripeness_confidence:.2f}%"
+                # )
 
-                print(
-                    f"फल की स्थिति: "
-                    f"{hindi_ripeness(ripeness)}"
-                )
+                # if "ripe" in ripeness.lower():
 
-                print(
-                    f"जाँच का भरोसा: "
-                    f"{ripeness_confidence:.2f}%"
-                )
+                #     print(
+                #         "🟢 यह फल पक चुका है।"
+                #     )
 
-                if "ripe" in ripeness.lower():
+                #     ripe_count += 1
 
-                    print("🟢 यह फल पक चुका है।")
+                # elif "raw" in ripeness.lower():
 
-                elif "raw" in ripeness.lower():
+                #     print(
+                #         "🟡 यह फल अभी कच्चा है।"
+                #     )
 
-                    print("🟡 यह फल अभी कच्चा है।")
-
-
-                # Count raw / ripe
-
-                if "ripe" in ripeness.lower():
-
-                    ripe_count += 1
-
-                elif "raw" in ripeness.lower():
-
-                    raw_count += 1
-
-
-        # =====================================================
+                #     raw_count += 1        # =====================================================
         # FINAL FARM IMAGE REPORT
         # =====================================================
 
