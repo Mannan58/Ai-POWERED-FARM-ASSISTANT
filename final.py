@@ -43,6 +43,57 @@ def hindi_ripeness(ripeness):
     return ripeness
 
 # ============================================================
+# HINGLISH FARMER-FRIENDLY LANGUAGE
+# ============================================================
+
+def hinglish_disease_name(disease):
+
+    HINGLISH_DISEASE = {
+
+        "Tomato___Early_blight":
+            "Patti mein Early Blight bimari",
+
+        "Tomato___Late_blight":
+            "Patti mein Late Blight bimari",
+
+        "Tomato___healthy":
+            "Patti ka paudha healthy hai",
+
+        "Potato___Early_blight":
+            "Patti mein Early Blight bimari",
+
+        "Potato___Late_blight":
+            "Patti mein Late Blight bimari",
+
+        "Potato___healthy":
+            "Patti ka paudha healthy hai",
+
+        "Pepper_bell___Bacterial_spot":
+            "Patti mein Bacterial Spot bimari",
+
+        "Pepper_bell___healthy":
+            "Patti ka paudha healthy hai",
+    }
+
+    return HINGLISH_DISEASE.get(
+        disease,
+        disease.replace("___", " ").replace("_", " ")
+    )
+
+
+def hinglish_ripeness(ripeness):
+
+    name = ripeness.lower()
+
+    if "unripe" in name or "raw" in name:
+        return "Kaccha phal"
+
+    if "ripe" in name:
+        return "Paka hua phal"
+
+    return ripeness
+
+# ============================================================
 # 1. DEVICE
 # ============================================================
 
@@ -376,11 +427,38 @@ while True:
                 else:
 
                     print(
-                        "⚠️ इस पत्ती में बीमारी के "
+                        " इस पत्ती में बीमारी के "
                         "लक्षण दिखाई दे रहे हैं।"
                     )
+                print("\n🍃 LEAF CHECK - HINGLISH")
 
-            # =================================================
+                print(
+                    f"Leaf detection confidence: "
+                    f"{detection_confidence:.2f}%"
+                )
+
+                print(
+                    f"Problem: "
+                    f"{hinglish_disease_name(disease)}"
+                )
+
+                print(
+                    f"Disease check confidence: "
+                    f"{disease_confidence:.2f}%"
+                )
+
+                if "healthy" in disease.lower():
+
+                    print(
+                        "✅ Yeh leaf healthy dikh rahi hai."
+                    )
+
+                else:
+
+                    print(
+                        "⚠️ Is leaf mein disease ke "
+                        "symptoms dikh rahe hain."
+                    )            # =================================================
             # FLOWER
             # =================================================
 
@@ -394,7 +472,12 @@ while True:
                     f"फूल मिलने का भरोसा: "
                     f"{detection_confidence:.2f}%"
                 )
+                print("\n🌸 FLOWER CHECK - HINGLISH")
 
+                print(
+                    f"Flower detection confidence: "
+                    f"{detection_confidence:.2f}%"
+                )
             # =================================================
             # FRUIT
             # =================================================
@@ -402,7 +485,12 @@ while True:
             elif class_name.lower() == "fruit":
 
                 fruit_count += 1
+            print("\n🍅 FRUIT CHECK - HINGLISH")
 
+            print(
+                f"Fruit detection confidence: "
+                f"{detection_confidence:.2f}%"
+            )
                 # ripeness, ripeness_confidence = (
                 #     predict_ripeness(crop)
                 # )
@@ -491,7 +579,56 @@ while True:
         print("=" * 60)
         print("=" * 60)
 
+        # ============================================================
+        # HINGLISH FARM IMAGE REPORT
+        # ============================================================
 
+        print("\n")
+        print("=" * 60)
+        print("🌾 FARM AI REPORT - HINGLISH")
+        print("=" * 60)
+
+        print(
+            f"🍃 Total leaves: {leaf_count}"
+        )
+
+        print(
+            f"🌸 Total flowers: {flower_count}"
+        )
+
+        print(
+            f"🍅 Total fruits: {fruit_count}"
+        )
+
+        print(
+            f"🟢 Ripe fruits: {ripe_count}"
+        )
+
+        print(
+            f"🟡 Raw fruits: {raw_count}"
+        )
+
+        print("\n📋 Easy Information:")
+
+        print(
+            f"Aapki khet mein total {leaf_count} leaves, "
+            f"{flower_count} flowers aur {fruit_count} fruits mile."
+        )
+
+        if ripe_count > 0:
+
+            print(
+                f"🍅 Inmein se {ripe_count} fruits pak chuke hain."
+            )
+
+        if raw_count > 0:
+
+            print(
+                f"🍅 {raw_count} fruits abhi kacche hain."
+            )
+
+        print("=" * 60)
+        print("=" * 60)
     # ========================================================
     # QUIT
     # ========================================================
