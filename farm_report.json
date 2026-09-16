@@ -1,0 +1,61 @@
+{
+    "leaves": 1,
+    "flowers": 0,
+    "fruits": 0,
+    "ripe_fruits": 0,
+    "raw_fruits": 0,
+    "diseases": [
+        {
+            "disease": "Orange___Haunglongbing_(Citrus_greening)",
+            "hindi": "Orange Haunglongbing (Citrus greening)",
+            "hinglish": "Orange Haunglongbing (Citrus greening)",
+            "confidence": 97.61619567871094,
+            "leaf_detection_confidence": 70.72351574897766
+        }
+    ],
+    "leaf_results": [
+        {
+            "disease": "Orange___Haunglongbing_(Citrus_greening)",
+            "hindi": "Orange Haunglongbing (Citrus greening)",
+            "hinglish": "Orange Haunglongbing (Citrus greening)",
+            "confidence": 97.61619567871094,
+            "leaf_detection_confidence": 70.72351574897766
+        }
+    ],
+    "terminal_messages": [
+        "\n🍃 पत्ती की जाँच",
+        "पत्ती मिलने का भरोसा: 70.72%",
+        "समस्या: Orange Haunglongbing (Citrus greening)",
+        "जाँच का भरोसा: 97.62%",
+        "⚠️ इस पत्ती में बीमारी के लक्षण दिखाई दे रहे हैं।",
+        "\n🍃 LEAF CHECK - HINGLISH",
+        "Leaf detection confidence: 70.72%",
+        "Problem: Orange Haunglongbing (Citrus greening)",
+        "Disease check confidence: 97.62%",
+        "⚠️ Is leaf mein disease ke symptoms dikh rahe hain.",
+        "\n",
+        "============================================================",
+        "🌾 खेत की जाँच रिपोर्ट",
+        "============================================================",
+        "🍃 कुल पत्तियाँ: 1",
+        "🌸 कुल फूल: 0",
+        "🍅 कुल फल: 0",
+        "🟢 पके हुए फल: 0",
+        "🟡 कच्चे फल: 0",
+        "\n📋 आसान जानकारी:",
+        "आपकी तस्वीर में कुल 1 पत्तियाँ, 0 फूल और 0 फल मिले।",
+        "============================================================",
+        "\n",
+        "============================================================",
+        "🌾 FARM AI REPORT - HINGLISH",
+        "============================================================",
+        "🍃 Total leaves: 1",
+        "🌸 Total flowers: 0",
+        "🍅 Total fruits: 0",
+        "🟢 Ripe fruits: 0",
+        "🟡 Raw fruits: 0",
+        "\n📋 Easy Information:",
+        "Aapki khet mein total 1 leaves, 0 flowers aur 0 fruits mile.",
+        "============================================================"
+    ]
+}

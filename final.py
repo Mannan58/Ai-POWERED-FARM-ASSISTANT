@@ -5,6 +5,27 @@ from torchvision import models, transforms
 from ultralytics import YOLO
 from PIL import Image
 
+
+# ============================================================
+# DATA FOR OTHER FILES
+# ============================================================
+
+report_lines = []
+
+farm_report = {
+    "leaves": 0,
+    "flowers": 0,
+    "fruits": 0,
+    "ripe_fruits": 0,
+    "raw_fruits": 0,
+    "diseases": [],
+    "leaf_results": [],
+    "terminal_messages": report_lines
+}
+
+def show(message):
+    print(message)
+    report_lines.append(str(message))
 # ============================================================
 # HINDI FARMER-FRIENDLY LANGUAGE
 # ============================================================
@@ -400,6 +421,13 @@ while True:
                 disease, disease_confidence = (
                     predict_disease(crop)
                 )
+                farm_report["diseases"].append({
+                "disease": disease,
+                "hindi": hindi_disease_name(disease),
+                "hinglish": hinglish_disease_name(disease),
+                "confidence": disease_confidence,
+                "leaf_detection_confidence": detection_confidence
+            })
 
                 print("\n🍃 पत्ती की जाँच")
 
@@ -458,7 +486,8 @@ while True:
                     print(
                         "⚠️ Is leaf mein disease ke "
                         "symptoms dikh rahe hain."
-                    )            # =================================================
+                    )
+            # =================================================
             # FLOWER
             # =================================================
 
